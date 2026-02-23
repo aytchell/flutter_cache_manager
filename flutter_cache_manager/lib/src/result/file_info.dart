@@ -12,9 +12,14 @@ enum FileSource { NA, Cache, Online }
 /// FileInfo contains the fetch File next to some info on the validity and
 /// the origin of the file.
 class FileInfo extends FileResponse {
-  const FileInfo(this.file, this.source, this.validTill, String originalUrl,
-      {this.statusCode = 200, this.etag})
-      : super(originalUrl);
+  const FileInfo({
+    required this.file,
+    required this.source,
+    required this.validTill,
+    required super.originalUrl,
+    required this.statusCode,
+    required this.etag,
+  });
 
   /// Fetched file
   final File file;

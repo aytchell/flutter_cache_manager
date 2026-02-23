@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:clock/clock.dart';
+import 'package:file/file.dart';
 import 'package:file/memory.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_cache_manager/src/cache_store.dart';
@@ -14,6 +15,16 @@ import 'helpers/mock_cache_store.dart';
 import 'helpers/mock_file_fetcher_response.dart';
 import 'helpers/test_configuration.dart';
 import 'mock.mocks.dart';
+
+FileInfo _fileInfo(File file, FileSource source, DateTime validTill, String originalUrl) =>
+  FileInfo(
+    file: file,
+    source: source,
+    validTill: validTill,
+    originalUrl: originalUrl,
+    statusCode: 200,
+    etag: null,
+  );
 
 void main() {
   group('Tests for getSingleFile', () {
@@ -128,7 +139,7 @@ void main() {
 
       var store = MockCacheStore();
       var file = await createTestConfig().fileSystem.createFile(fileName);
-      var fileInfo = FileInfo(file, FileSource.Cache, validTill, fileUrl);
+      var fileInfo = _fileInfo(file, FileSource.Cache, validTill, fileUrl);
       when(store.getFile(fileUrl)).thenAnswer((_) => Future.value(fileInfo));
 
       var cacheManager = TestCacheManager(config, store: store);
@@ -146,11 +157,11 @@ void main() {
 
       var store = MockCacheStore();
       var file = await createTestConfig().fileSystem.createFile(fileName);
-      var cachedInfo = FileInfo(file, FileSource.Cache, validTill, fileUrl);
+      var cachedInfo = _fileInfo(file, FileSource.Cache, validTill, fileUrl);
       when(store.getFile(fileUrl)).thenAnswer((_) => Future.value(cachedInfo));
 
       var webHelper = MockWebHelper();
-      var downloadedInfo = FileInfo(file, FileSource.Online,
+      var downloadedInfo = _fileInfo(file, FileSource.Online,
           DateTime.now().add(const Duration(days: 1)), fileUrl);
       when(webHelper.downloadFile(fileUrl, key: anyNamed('key')))
           .thenAnswer((_) => Stream.value(downloadedInfo));
@@ -172,7 +183,7 @@ void main() {
 
       var store = MockCacheStore();
       var file = await createTestConfig().fileSystem.createFile(fileName);
-      var fileInfo = FileInfo(file, FileSource.Cache, validTill, fileUrl);
+      var fileInfo = _fileInfo(file, FileSource.Cache, validTill, fileUrl);
 
       when(store.getFile(fileUrl)).thenAnswer((_) => Future.value(null));
 
@@ -225,7 +236,7 @@ void main() {
 
       var store = MockCacheStore();
       var file = await createTestConfig().fileSystem.createFile(fileName);
-      var cachedInfo = FileInfo(file, FileSource.Cache, validTill, fileUrl);
+      var cachedInfo = _fileInfo(file, FileSource.Cache, validTill, fileUrl);
       var cacheObject = CacheObject(fileUrl,
           relativePath: file.path, validTill: validTill, id: 123);
       when(store.getFile(fileUrl)).thenAnswer((_) => Future.value(cachedInfo));
@@ -441,7 +452,7 @@ void main() {
 
   test('Download file just downloads file', () async {
     var fileUrl = 'baseflow.com/test';
-    var fileInfo = FileInfo(MemoryFileSystem.test().file('f'), FileSource.Cache,
+    var fileInfo = _fileInfo(MemoryFileSystem.test().file('f'), FileSource.Cache,
         DateTime.now(), fileUrl);
     var store = MockCacheStore();
     var webHelper = MockWebHelper();
@@ -457,7 +468,7 @@ void main() {
 
   test('test file from memory', () async {
     var fileUrl = 'baseflow.com/test';
-    var fileInfo = FileInfo(MemoryFileSystem.test().file('f'), FileSource.Cache,
+    var fileInfo = _fileInfo(MemoryFileSystem.test().file('f'), FileSource.Cache,
         DateTime.now(), fileUrl);
 
     var store = MockCacheStore();

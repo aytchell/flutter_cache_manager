@@ -43,10 +43,11 @@ class CacheStore {
         'CacheManager: Loaded $key from cache', CacheManagerLogLevel.verbose);
 
     return FileInfo(
-      file,
-      FileSource.Cache,
-      cacheObject.validTill,
-      cacheObject.url,
+      file: file,
+      source: FileSource.Cache,
+      validTill:  cacheObject.validTill,
+      originalUrl:  cacheObject.url,
+      statusCode: 304,
       etag: cacheObject.eTag,
     );
   }
@@ -97,7 +98,11 @@ class CacheStore {
     }
     final file = await fileSystem.createFile(cacheObject.relativePath);
     return FileInfo(
-        file, FileSource.Cache, cacheObject.validTill, cacheObject.url,
+        file: file,
+        source: FileSource.Cache,
+        validTill: cacheObject.validTill,
+        originalUrl: cacheObject.url,
+        statusCode: 304,
         etag: cacheObject.eTag);
   }
 

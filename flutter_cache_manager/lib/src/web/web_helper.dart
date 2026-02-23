@@ -148,10 +148,10 @@ class WebHelper {
       newCacheObject.relativePath,
     );
     yield FileInfo(
-      file,
-      FileSource.Online,
-      newCacheObject.validTill,
-      newCacheObject.url,
+      file: file,
+      source: FileSource.Online,
+      validTill: newCacheObject.validTill,
+      originalUrl: newCacheObject.url,
       statusCode: response.statusCode,
       etag: response.eTag,
     );

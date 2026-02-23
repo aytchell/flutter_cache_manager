@@ -109,11 +109,12 @@ mixin ImageCacheManager on BaseCacheManager {
     );
 
     return FileInfo(
-      file,
-      originalFile.source,
-      originalFile.validTill,
-      originalFile.originalUrl,
-      etag: originalFile.etag,
+      file: file,
+      source: originalFile.source,
+      validTill: originalFile.validTill,
+      originalUrl: originalFile.originalUrl,
+      statusCode: 200,
+      etag: null,
     );
   }
 
