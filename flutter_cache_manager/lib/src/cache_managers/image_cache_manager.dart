@@ -113,6 +113,7 @@ mixin ImageCacheManager on BaseCacheManager {
       originalFile.source,
       originalFile.validTill,
       originalFile.originalUrl,
+      etag: originalFile.etag,
     );
   }
 

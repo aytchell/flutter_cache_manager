@@ -13,7 +13,7 @@ enum FileSource { NA, Cache, Online }
 /// the origin of the file.
 class FileInfo extends FileResponse {
   const FileInfo(this.file, this.source, this.validTill, String originalUrl,
-      {this.statusCode = 200})
+      {this.statusCode = 200, this.etag})
       : super(originalUrl);
 
   /// Fetched file
@@ -27,4 +27,7 @@ class FileInfo extends FileResponse {
   final DateTime validTill;
 
   final int statusCode;
+
+  /// eTag of the originally downloaded file
+  final String? etag;
 }

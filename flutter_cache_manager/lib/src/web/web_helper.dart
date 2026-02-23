@@ -153,6 +153,7 @@ class WebHelper {
       newCacheObject.validTill,
       newCacheObject.url,
       statusCode: response.statusCode,
+      etag: response.eTag,
     );
   }
 

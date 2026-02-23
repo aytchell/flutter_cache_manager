@@ -47,6 +47,7 @@ class CacheStore {
       FileSource.Cache,
       cacheObject.validTill,
       cacheObject.url,
+      etag: cacheObject.eTag,
     );
   }
 
@@ -96,7 +97,8 @@ class CacheStore {
     }
     final file = await fileSystem.createFile(cacheObject.relativePath);
     return FileInfo(
-        file, FileSource.Cache, cacheObject.validTill, cacheObject.url);
+        file, FileSource.Cache, cacheObject.validTill, cacheObject.url,
+        etag: cacheObject.eTag);
   }
 
   Future<bool> _fileExists(CacheObject? cacheObject) async {
