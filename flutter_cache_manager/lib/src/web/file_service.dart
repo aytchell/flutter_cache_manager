@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:clock/clock.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_cache_manager/src/web/mime_converter.dart';
 import 'package:http/http.dart' as http;
 
@@ -36,7 +37,9 @@ class HttpFileService extends FileService {
     if (headers != null) {
       req.headers.addAll(headers);
     }
+    cacheLogger.log('HTTP GET ${req.url.toString()} (etag: ${headers.toString()})');
     final httpResponse = await _httpClient.send(req);
+    cacheLogger.log('HTTP GET -> ${httpResponse.statusCode}');
 
     return HttpGetResponse(httpResponse, _durationOnMaxAgeZero);
   }

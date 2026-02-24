@@ -15,7 +15,7 @@ import 'package:uuid/uuid.dart';
 /// Basic cache manager implementation, which should be used as a single
 /// instance.
 class CacheManager implements BaseCacheManager {
-  static CacheManagerLogLevel logLevel = CacheManagerLogLevel.none;
+  static CacheManagerLogLevel logLevel = CacheManagerLogLevel.debug;
 
   /// Creates a new instance of a cache manager. This can be used to retrieve
   /// files from the cache or download them online. The http headers are used
